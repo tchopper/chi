@@ -637,7 +637,6 @@ func patParamKeys(pattern string) []string {
 		paramKeys = append(paramKeys, paramKey)
 		pat = pat[e:]
 	}
-	return paramKeys
 }
 
 // longestPrefix finds the length of the shared prefix

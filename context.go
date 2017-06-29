@@ -55,6 +55,27 @@ func (x *Context) URLParam(key string) string {
 	return ""
 }
 
+//adds a route param if non-existing or overrides existing urlparam if set
+func (x *Context) SetURLParam(key string, value string) {
+	for s := len(x.URLParams) - 1; s >= 0; s-- {
+		for k := len(x.URLParams[s].keys) - 1; k >= 0; k-- {
+			if x.URLParams[s].keys[k] == key {
+				x.URLParams[s].values[k] = value
+				return
+			}
+		}
+	}
+	rp := routeParams{}
+	rp.Add(key, value)
+	x.URLParams = append(x.URLParams, rp)
+}
+
+//adds a routeParam
+func (rp *routeParams) Add(key string, value string) {
+	(*rp).keys = append((*rp).keys, key)
+	(*rp).values = append((*rp).values, value)
+}
+
 // RouteContext returns chi's routing Context object from a
 // http.Request Context.
 func RouteContext(ctx context.Context) *Context {
